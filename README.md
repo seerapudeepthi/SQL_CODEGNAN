@@ -226,7 +226,7 @@ The project can be extended by adding:
 
 This project was collaboratively developed by the following team members:
 
-| Team Member | Contribution                                                                                                             |
+| Team Members | Contribution                                                                                                             |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------ |
 | **Deepthi** | Designed the database schema, created SQL tables, implemented relationships, and developed core banking queries.         |
 | **Reshma**  | Developed transaction management queries, inserted sample data, and performed database testing and validation.           |
