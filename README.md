@@ -1,267 +1,240 @@
-Here's a professional **README.md** for your **Banking System + Fraud Detection (MySQL)** project that matches the style of projects uploaded to GitHub.
+# Banking System with Fraud Detection
 
-````markdown
-# 🏦 Banking System + Fraud Detection using MySQL
+## Project Overview
 
-A Banking System database project developed using **MySQL** to simulate real-world banking operations such as customer management, account handling, card management, transaction processing, and basic fraud detection. The project demonstrates SQL concepts including database design, constraints, joins, aggregate functions, and analytical queries.
+The **Banking System with Fraud Detection** is a relational database project developed using **MySQL**. This project is designed to manage banking operations such as maintaining customer information, bank accounts, debit/credit cards, and financial transactions while identifying suspicious activities through fraud detection techniques.
 
----
+The database demonstrates the implementation of:
 
-# 📌 Project Features
-
-- Customer Management
-- Bank Account Management
-- Debit/Credit Card Management
-- Transaction Management
-- Fraud Detection Queries
-- SQL Joins
-- Aggregate Functions
-- Group By & Having
-- Database Relationships
-- MySQL Constraints
+* Database creation
+* Table creation
+* Primary and Foreign Keys
+* Data insertion
+* Table relationships
+* SQL queries of different difficulty levels
+* Fraud detection using SQL
 
 ---
 
-# 📂 Database Tables
+## Technologies Used
 
-## 1. Customers
-Stores customer information.
-
-**Attributes**
-- CustomerID (Primary Key)
-- CustomerName
-- Email
-- Phone
-- KYCStatus
-- CreatedDate
+* MySQL
+* SQL
 
 ---
 
-## 2. Accounts
-Stores customer bank account details.
+## Database Tables
 
-**Attributes**
-- AccountID (Primary Key)
-- CustomerID (Foreign Key)
-- AccountNumber
-- AccountType
-- Balance
-- Status
-- OpenedDate
+The project contains the following tables:
+
+1. Customers
+2. Accounts
+3. Cards
+4. Transactions
 
 ---
 
-## 3. Cards
-Stores debit and credit card information.
+## Table Description
 
-**Attributes**
-- CardID (Primary Key)
-- AccountID (Foreign Key)
-- CardNumber
-- CardType
-- CVV
-- ExpiryDate
+### Customers
 
----
+Stores customer information including personal details, contact information, KYC status, and account creation date.
 
-## 4. Transactions
-Stores all banking transactions.
+### Accounts
 
-**Attributes**
-- TransactionID (Primary Key)
-- AccountID (Foreign Key)
-- TransactionType
-- Amount
-- TransactionDate
-- Location
-- Merchant
-- DeviceID
-- Status
+Maintains bank account details such as account number, account type, balance, status, and opening date. Each account belongs to one customer.
+
+### Cards
+
+Stores debit and credit card details linked to customer accounts, including card number, card type, CVV, and expiry date.
+
+### Transactions
+
+Maintains all banking transactions including deposits, withdrawals, amount, transaction date, merchant details, device information, transaction location, and transaction status.
 
 ---
 
-# 🔗 Relationships
+## Relationships
 
-- One Customer can own many Accounts.
-- One Account belongs to one Customer.
-- One Account can have one or more Cards.
-- One Account can perform many Transactions.
-
----
-
-# 🗂 ER Diagram
-
-```
-Customers (1)
-      |
-      | owns
-      |
-      N
-Accounts (1)
-   | \
-   |  \
-   |   \
-   N    N
-Cards Transactions
-```
+* One customer can own multiple accounts.
+* One account can have one or more debit/credit cards.
+* One account can perform multiple transactions.
+* Transactions are linked to accounts for banking analysis and fraud detection.
 
 ---
 
-# 📊 Sample Data
+## SQL Concepts Implemented
 
-The project contains sample records for
+### DDL (Data Definition Language)
 
-- 5 Customers
-- 5 Accounts
-- 5 Cards
-- 10 Transactions
+* CREATE DATABASE
+* CREATE TABLE
+* PRIMARY KEY
+* FOREIGN KEY
 
-used for testing SQL queries and fraud detection.
+### DML (Data Manipulation Language)
 
----
+* INSERT
+* UPDATE
+* DELETE
 
-# 📝 SQL Concepts Used
+### DQL (Data Query Language)
 
-## DDL
+* SELECT
+* WHERE
+* ORDER BY
+* GROUP BY
+* HAVING
 
-- CREATE DATABASE
-- CREATE TABLE
+### Aggregate Functions
 
-## DML
+* COUNT()
+* SUM()
+* AVG()
+* MAX()
+* MIN()
 
-- INSERT
-- SELECT
+### Joins
 
-## Constraints
+* INNER JOIN
+* Multiple Table JOIN
 
-- PRIMARY KEY
-- FOREIGN KEY
-- UNIQUE
+### Advanced SQL
 
-## SQL Clauses
-
-- WHERE
-- ORDER BY
-- GROUP BY
-- HAVING
-
-## Aggregate Functions
-
-- COUNT()
-- AVG()
-- MAX()
-
-## Joins
-
-- INNER JOIN
+* Subqueries
+* Common Table Expressions (CTEs)
+* Window Functions
+* Running Balance
+* Fraud Detection Queries
 
 ---
 
-# 🔍 Query Categories
+## SQL Queries Included
 
-## Easy Queries
+### Easy Level Queries
 
-- Display customer details
-- Active accounts
-- Verified KYC customers
-- High-value debit transactions
+Queries using:
 
----
+* WHERE clause
+* Comparison Operators
+* ORDER BY
+* Basic Filtering
+* Aggregate Functions
 
-## Intermediate Queries
+### Intermediate Level Queries
 
-- Average account balance
-- Number of accounts by type
-- Highest transaction amount
-- Customer count by KYC status
+Queries using:
 
----
+* INNER JOIN
+* GROUP BY
+* COUNT()
+* SUM()
+* AVG()
+* MAX()
+* MIN()
+* Subqueries
 
-## Advanced Queries
+### Advanced Level Queries
 
-- Customer with account details
-- Customer card details
-- High balance customers
-- Total transactions per account
+Queries using:
 
----
-
-# 🚨 Fraud Detection
-
-The project identifies suspicious banking activities such as
-
-- High-value debit transactions
-- Multiple transactions from different locations
-- Failed transactions
-- Large withdrawals
-- Device-based monitoring
-
----
-
-# 💻 Technologies Used
-
-- MySQL 8.x
-- SQL
-- Relational Database Design
+* Window Functions
+* RANK()
+* DENSE_RANK()
+* ROW_NUMBER()
+* LAG()
+* LEAD()
+* Running Balance
+* Fraud Detection Queries
+* Common Table Expressions (CTEs)
 
 ---
 
-# 📁 Project Structure
+## Fraud Detection Features
 
-```
-Banking-System-Fraud-Detection/
-│
-├── README.md
-├── banking_system.sql
-├── banking_system_queries.sql
-├── bank_system_and_fraud_detection_er.png
-```
+The project includes SQL queries to identify suspicious banking activities such as:
 
----
-
-# 🎯 Learning Outcomes
-
-This project demonstrates:
-
-- Database normalization
-- Primary & Foreign Keys
-- Entity Relationships
-- SQL querying
-- Aggregate Functions
-- Joins
-- Banking database design
-- Basic fraud detection using SQL
+* High-value transactions
+* Large debit transactions
+* Multiple transactions within a short time period
+* Transactions from different locations
+* Running balance calculation
+* Multiple device usage detection
+* Failed transaction monitoring
+* Unusual customer transaction behavior
+* Suspicious account activity
 
 ---
 
-# 📸 Output
+## Features
 
-The project includes:
-
-- Database creation
-- Table creation
-- Sample data insertion
-- SQL query execution
-- Query descriptions
-- ER Diagram
-- Output screenshots
-
----
-
-# 👥 Team Contributions
-
-| Team Member | Contribution |
-|------------|--------------|
-| Deepti | Designed the database schema, created SQL tables, and established table relationships. |
-| Reshma | Inserted sample data, developed SQL queries, and validated database operations. |
-| Sai | Implemented fraud detection queries and optimized SQL statements. |
-| Bhavana | Designed the ER diagram, prepared project documentation, and tested query outputs. |
+* Real-world Banking Database Design
+* Customer Management
+* Account Management
+* Debit/Credit Card Management
+* Transaction Management
+* Fraud Detection using SQL
+* Proper use of Primary and Foreign Keys
+* Sample data inserted for testing
+* ER Diagram included
+* Easy, Intermediate, and Advanced SQL queries
+* Well-structured relational database
 
 ---
 
-# ✅ Conclusion
+## Learning Outcomes
 
-The **Banking System + Fraud Detection** project demonstrates how relational databases can efficiently manage banking operations while identifying suspicious transactions using SQL. It provides hands-on experience with MySQL database design, joins, aggregate functions, constraints, and fraud detection techniques, making it suitable as an intermediate-level database management project.
-````
+Through this project, the following database concepts were practiced:
 
-This README matches the structure commonly used for GitHub SQL projects and is suitable for showcasing your **Banking System + Fraud Detection** repository. It summarizes the database schema and sample data from your SQL project. 
+* Database Design
+* Relational Database Management
+* Database Normalization
+* Primary and Foreign Keys
+* SQL Query Writing
+* Filtering and Sorting
+* Aggregate Functions
+* GROUP BY and HAVING
+* JOIN Operations
+* Subqueries
+* Window Functions
+* Fraud Detection Logic
+* Banking Transaction Analysis
+* ER Diagram Design
+
+---
+
+## Future Enhancements
+
+The project can be extended by adding:
+
+* Loan Management Module
+* Branch Management
+* Employee Management
+* ATM Transactions
+* Internet Banking
+* UPI Payments
+* OTP Authentication
+* User Login System
+* Automatic Fraud Alert Generation
+* Stored Procedures
+* Triggers
+* Transactions (COMMIT & ROLLBACK)
+
+---
+
+## Authors
+
+This project was collaboratively developed by the following team members:
+
+| Team Member | Contribution                                                                                                             |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Deepthi** | Designed the database schema, created SQL tables, implemented relationships, and developed core banking queries.         |
+| **Reshma**  | Developed transaction management queries, inserted sample data, and performed database testing and validation.           |
+| **Sai**     | Implemented fraud detection queries, analyzed suspicious transactions, and optimized SQL queries for better performance. |
+| **Bhavana** | Designed the ER diagram, prepared project documentation, verified database integrity, and assisted in query testing.     |
+
+---
+
+## Conclusion
+
+The **Banking System with Fraud Detection** project demonstrates the practical implementation of MySQL concepts through a real-world banking application. It covers database design, relational modeling, transaction management, SQL query development, and fraud detection techniques. This project serves as an excellent academic and portfolio project for understanding modern database management systems and advanced SQL concepts.
