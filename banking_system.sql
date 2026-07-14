@@ -257,9 +257,86 @@ mysql> SELECT CustomerName, KYCStatus
 +--------------+-----------+
 4 rows in set (0.00 sec)
 
-mysql>
-mysql>
-mysql>
+mysql> -- 5.Display all customer names and phone numbers
+mysql>SELECT CustomerName, Phone
+    -> FROM Customers;
++--------------+------------+
+| CustomerName | Phone      |
++--------------+------------+
+| Rahul Kumar  | 9876543210 |
+| Priya Sharma | 9876543211 |
+| Kiran Reddy  | 9876543212 |
+| Sneha Rao    | 9876543213 |
+| Arjun Singh  | 9876543214 |
++--------------+------------+
+5 rows in set (0.06 sec)
+
+mysql>-- 6.Display all active accounts.
+mysql>SELECT AccountNumber, AccountType, Balance
+    -> FROM Accounts
+    -> WHERE Status='Active';
++---------------+-------------+-----------+
+| AccountNumber | AccountType | Balance   |
++---------------+-------------+-----------+
+| ACC1001       | Savings     |  90000.00 |
+| ACC1002       | Current     |  50000.00 |
+| ACC1003       | Savings     |  70000.00 |
+| ACC1004       | Savings     | 100000.00 |
++---------------+-------------+-----------+
+4 rows in set (0.02 sec)
+mysql>-- 7.Display all verified customers.
+mysql> SELECT CustomerName, Email
+    -> FROM Customers
+    -> WHERE KYCStatus='Verified';
++--------------+-----------------+
+| CustomerName | Email           |
++--------------+-----------------+
+| Rahul Kumar  | rahul@gmail.com |
+| Priya Sharma | priya@gmail.com |
+| Kiran Reddy  | kiran@gmail.com |
+| Arjun Singh  | arjun@gmail.com |
++--------------+-----------------+
+4 rows in set (0.00 sec)
+mysql>-- 8.Display all debit transactions.
+mysql> SELECT TransactionID, Amount, TransactionDate
+    -> FROM Transactions
+    -> WHERE TransactionType='Debit';
++---------------+----------+---------------------+
+| TransactionID | Amount   | TransactionDate     |
++---------------+----------+---------------------+
+|             1 |  2000.00 | 2025-07-10 09:00:00 |
+|             2 | 50000.00 | 2025-07-10 09:05:00 |
+|             3 | 60000.00 | 2025-07-10 09:08:00 |
+|             5 | 80000.00 | 2025-07-11 10:05:00 |
+|             6 | 15000.00 | 2025-07-12 09:00:00 |
+|             8 |  1000.00 | 2025-07-13 09:30:00 |
+|             9 | 70000.00 | 2025-07-13 09:45:00 |
++---------------+----------+---------------------+
+7 rows in set (0.01 sec)
+mysql>-- 9.Display all credit cards.
+mysql> SELECT CardNumber, CardType, ExpiryDate
+    -> FROM Cards
+    -> WHERE CardType='Credit';
++------------------+----------+------------+
+| CardNumber       | CardType | ExpiryDate |
++------------------+----------+------------+
+| 5555666677778888 | Credit   | 2027-10-31 |
+| 3333444455556666 | Credit   | 2027-06-30 |
++------------------+----------+------------+
+2 rows in set (0.01 sec)
+mysql>-- 10.Display accounts having balance greater than ₹50,000.
+mysql> SELECT AccountNumber, Balance
+    -> FROM Accounts
+    -> WHERE Balance > 50000;
++---------------+-----------+
+| AccountNumber | Balance   |
++---------------+-----------+
+| ACC1001       |  90000.00 |
+| ACC1003       |  70000.00 |
+| ACC1004       | 100000.00 |
++---------------+-----------+
+3 rows in set (0.02 sec)
+
 mysql> -- MEDIUM LEVEL QUERIES
 mysql>
 mysql> -- 1. Returns average account balance using AVG aggregate function.
@@ -311,9 +388,69 @@ mysql> SELECT KYCStatus,
 +-----------+-----------------+
 2 rows in set (0.00 sec)
 
-mysql>
-mysql>
-mysql>
+mysql> -- 5. Count the total number of customers based on KYC status
+mysql> SELECT AVG(Balance) AS Average_Balance
+    -> FROM Accounts;
++-----------------+
+| Average_Balance |
++-----------------+
+|    70000.000000 |
++-----------------+
+1 row in set (0.00 sec)
+mysql> -- 6. Count the total number of customers based on KYC status
+mysql> SELECT KYCStatus,
+    ->        COUNT(CustomerID) AS Total_Customers
+    -> FROM Customers
+    -> GROUP BY KYCStatus;
++-----------+-----------------+
+| KYCStatus | Total_Customers |
++-----------+-----------------+
+| Verified  |               4 |
+| Pending   |               1 |
++-----------+-----------------+
+2 rows in set (0.00 sec)
+mysql>-- 7.Find the highest transaction amount using MAX().
+mysql> SELECT MAX(Amount) AS Highest_Transaction
+    -> FROM Transactions;
++---------------------+
+| Highest_Transaction |
++---------------------+
+|            80000.00 |
++---------------------+
+1 row in set (0.00 sec)
+mysql>-- 8. Count the total number of accounts for each account type
+mysql> SELECT AccountType,
+    ->        COUNT(AccountID) AS Total_Accounts
+    -> FROM Accounts
+    -> GROUP BY AccountType;
++-------------+----------------+
+| AccountType | Total_Accounts |
++-------------+----------------+
+| Savings     |              3 |
+| Current     |              2 |
++-------------+----------------+
+2 rows in set (0.00 sec)
+mysql>-- 9. Find the total debit transaction amount using SUM().
+mysql> SELECT SUM(Amount) AS Total_Debit_Amount
+    -> FROM Transactions
+    -> WHERE TransactionType = 'Debit';
++--------------------+
+| Total_Debit_Amount |
++--------------------+
+|          278000.00 |
++--------------------+
+1 row in set (0.00 sec)
+mysql>-- 10.Find the total number of successful transactions
+mysql> SELECT COUNT(TransactionID) AS Successful_Transactions
+    -> FROM Transactions
+    -> WHERE Status = 'Success';
++-------------------------+
+| Successful_Transactions |
++-------------------------+
+|                       9 |
++-------------------------+
+1 row in set (0.00 sec)
+
 mysql> -- HARD LEVEL QUERIES
 mysql>
 mysql> -- 1. Returns customer names along with account numbers and balances using JOIN clause.
@@ -392,10 +529,125 @@ mysql> SELECT
 | ACC1005       |                  1 |
 +---------------+--------------------+
 5 rows in set (0.00 sec)
+mysql> -- 5. Display customer names along with their account numbers
+mysql>mysql> SELECT
+    ->     c.CustomerName,
+    ->     a.AccountNumber,
+    ->     a.Balance
+    -> FROM Customers c
+    -> JOIN Accounts a
+    -> ON c.CustomerID = a.CustomerID;
++--------------+---------------+-----------+
+| CustomerName | AccountNumber | Balance   |
++--------------+---------------+-----------+
+| Rahul Kumar  | ACC1001       |  90000.00 |
+| Priya Sharma | ACC1002       |  50000.00 |
+| Kiran Reddy  | ACC1003       |  70000.00 |
+| Sneha Rao    | ACC1004       | 100000.00 |
+| Arjun Singh  | ACC1005       |  40000.00 |
++--------------+---------------+-----------+
+5 rows in set (0.00 sec)
+mysql> -- 6.Display customer names along with their card type
+mysql>mysql> SELECT
+    ->     c.CustomerName,
+    ->     ca.CardType
+    -> FROM Customers c
+    -> JOIN Accounts a
+    -> ON c.CustomerID = a.CustomerID
+    -> JOIN Cards ca
+    -> ON a.AccountID = ca.AccountID;
++--------------+----------+
+| CustomerName | CardType |
++--------------+----------+
+| Rahul Kumar  | Debit    |
+| Priya Sharma | Credit   |
+| Kiran Reddy  | Debit    |
+| Sneha Rao    | Credit   |
+| Arjun Singh  | Debit    |
++--------------+----------+
+5 rows in set (0.00 sec)
+mysql> -- 7. Display customer names whose account balance is
+mysql> -- greater than ₹80,000 using JOIN and WHERE clause.
+mysql> SELECT
+    ->     c.CustomerName,
+    ->     a.AccountNumber,
+    ->     a.Balance
+    -> FROM Customers c
+    -> JOIN Accounts a
+    -> ON c.CustomerID = a.CustomerID
+    -> WHERE a.Balance > 80000;
++--------------+---------------+-----------+
+| CustomerName | AccountNumber | Balance   |
++--------------+---------------+-----------+
+| Rahul Kumar  | ACC1001       |  90000.00 |
+| Sneha Rao    | ACC1004       | 100000.00 |
++--------------+---------------+-----------+
+2 rows in set (0.00 sec)
+mysql> -- 8.Count the total number of transactions performed
+mysql> --by each account using JOIN, COUNT(), and GROUP BY.
+mysql>SELECT
+    ->     a.AccountNumber,
+    ->     COUNT(t.TransactionID) AS Total_Transactions
+    -> FROM Accounts a
+    -> JOIN Transactions t
+    -> ON a.AccountID = t.AccountID
+    -> GROUP BY a.AccountNumber;
++---------------+--------------------+
+| AccountNumber | Total_Transactions |
++---------------+--------------------+
+| ACC1001       |                  3 |
+| ACC1002       |                  2 |
+| ACC1003       |                  2 |
+| ACC1004       |                  2 |
+| ACC1005       |                  1 |
++---------------+--------------------+
+5 rows in set (0.00 sec)
 
-mysql>
-mysql>
-mysql>
+mysql> -- 9.Display customer name, account number, and total
+mysql> -- transaction amount using JOIN, SUM(), and GROUP BY.
+mysql>mysql> SELECT
+    ->     c.CustomerName,
+    ->     a.AccountNumber,
+    ->     SUM(t.Amount) AS Total_Transaction_Amount
+    -> FROM Customers c
+    -> JOIN Accounts a
+    -> ON c.CustomerID = a.CustomerID
+    -> JOIN Transactions t
+    -> ON a.AccountID = t.AccountID
+    -> GROUP BY c.CustomerName, a.AccountNumber;
++--------------+---------------+--------------------------+
+| CustomerName | AccountNumber | Total_Transaction_Amount |
++--------------+---------------+--------------------------+
+| Rahul Kumar  | ACC1001       |                112000.00 |
+| Priya Sharma | ACC1002       |                 90000.00 |
+| Kiran Reddy  | ACC1003       |                 40000.00 |
+| Sneha Rao    | ACC1004       |                 71000.00 |
+| Arjun Singh  | ACC1005       |                  5000.00 |
++--------------+---------------+--------------------------+
+5 rows in set (0.00 sec)
+mysql> -- 10.Display customer name, account number, card type,
+mysql> -- and account balance using multiple INNER JOINs.
+mysql> SELECT
+    ->     c.CustomerName,
+    ->     a.AccountNumber,
+    ->     ca.CardType,
+    ->     a.Balance
+    -> FROM Customers c
+    -> JOIN Accounts a
+    -> ON c.CustomerID = a.CustomerID
+    -> JOIN Cards ca
+    -> ON a.AccountID = ca.AccountID;
++--------------+---------------+----------+-----------+
+| CustomerName | AccountNumber | CardType | Balance   |
++--------------+---------------+----------+-----------+
+| Rahul Kumar  | ACC1001       | Debit    |  90000.00 |
+| Priya Sharma | ACC1002       | Credit   |  50000.00 |
+| Kiran Reddy  | ACC1003       | Debit    |  70000.00 |
+| Sneha Rao    | ACC1004       | Credit   | 100000.00 |
+| Arjun Singh  | ACC1005       | Debit    |  40000.00 |
++--------------+---------------+----------+-----------+
+5 rows in set (0.00 sec)
+
 mysql> -- :::::::::::::::::::::::::::::::::::::::::::::DESCRIPTION OF QUERIES::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 mysql>
 mysql>
@@ -411,6 +663,24 @@ mysql>
 mysql> -- EASY QUERY 4:
 mysql> -- This query displays the names of customers whose KYC verification status is Verified using the WHERE clause.
 mysql>
+mysql> -- EASY QUERY 5:
+mysql> -- This query displays the names and phone numbers of all customers using the SELECT statement.
+mysql>
+mysql> -- EASY QUERY 6:
+mysql> -- This query displays all active bank accounts along with their account number, account type, and balance using the WHERE clause.
+mysql>
+mysql> -- EASY QUERY 7:
+mysql> -- This query displays the names and email addresses of customers whose KYC status is 'Verified' using the WHERE clause
+mysql>
+mysql> -- EASY QUERY 8:
+mysql> -- This query displays all debit transactions along with their transaction ID, amount, and transaction date using the WHERE clause.
+mysql>
+mysql> -- EASY QUERY 9:
+mysql> -- This query displays all credit cards along with their card number and expiry date using the WHERE clause.
+mysql>
+mysql> -- EASY QUERY 10:
+mysql> -- This query displays the account numbers and balances of accounts having a balance greater than ₹50,000 using the WHERE clause.
+mysql>
 mysql> -- INTERMEDIATE QUERY 1:
 mysql> -- This query calculates the average account balance of all bank accounts using the AVG aggregate function.
 mysql>
@@ -423,6 +693,24 @@ mysql>
 mysql> -- INTERMEDIATE QUERY 4:
 mysql> -- This query counts the total number of customers based on their KYC verification status using COUNT and GROUP BY clauses.
 mysql>
+mysql> -- INTERMEDIATE QUERY 5:
+mysql> -- This query calculates the average account balance of all bank accounts using the AVG() aggregate function.
+mysql>    
+mysql> -- INTERMEDIATE QUERY 6:
+mysql> -- This query counts the total number of customers based on their KYC verification status using COUNT() and GROUP BY.
+mysql>
+mysql> -- INTERMEDIATE QUERY 7:
+mysql> -- This query finds the highest transaction amount recorded in the Transactions table using the MAX() aggregate function.
+mysql>
+mysql> -- INTERMEDIATE QUERY 8:
+mysql> -- This query counts the total number of accounts for each account type using COUNT() and GROUP BY.
+mysql>
+mysql> -- INTERMEDIATE QUERY 9:
+mysql> -- This query calculates the total amount of all debit transactions using the SUM() aggregate function and WHERE clause.
+mysql>
+mysql> -- INTERMEDIATE QUERY 10:
+mysql> -- This query counts the total number of successful transactions using COUNT() and the WHERE clause.
+mysql>
 mysql> -- HARD QUERY 1:
 mysql> -- This query joins the Customers and Accounts tables to display customer names along with their account numbers and balances using the JOIN clause.
 mysql>
@@ -434,4 +722,22 @@ mysql> -- This query joins the Customers and Accounts tables and displays custom
 mysql>
 mysql> -- HARD QUERY 4:
 mysql> -- This query joins the Accounts and Transactions tables and counts the total number of transactions performed by each account using JOIN, COUNT, and GROUP BY clauses.
+mysql>
+mysql> -- HARD QUERY 5:
+mysql> -- This query joins the Customers and Accounts tables to display customer names along with their account numbers and balances using the INNER JOIN clause.
+mysql>
+mysql> -- HARD QUERY 6:
+mysql> -- This query joins the Customers, Accounts, and Cards tables to display customer names along with their card types using multiple INNER JOIN clauses.
+mysql>
+mysql> -- HARD QUERY 7:
+mysql> -- This query joins the Customers and Accounts tables and displayS customers whose account balance is greater than ₹80,000 using INNER JOIN and the WHERE clause.
+mysql>
+mysql> -- HARD QUERY 8:
+mysql> -- This query joins the Accounts and Transactions tables to count the total number of transactions performed by each account using COUNT() and GROUP BY.
+mysql>
+mysql> -- HARD QUERY 9:
+mysql> -- This query joins the Customers, Accounts, and Transactions tables to calculate the total transaction amount for each customer account using SUM() and GROUP BY.
+mysql>
+mysql> -- HARD QUERY 10:
+mysql> -- This query joins the Customers, Accounts, and Cards tables to display each customer's account number, card type, and account balance using multiple INNER JOIN clauses.
 mysql>EXIT
